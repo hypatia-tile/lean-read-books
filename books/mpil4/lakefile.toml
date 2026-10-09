@@ -1,0 +1,6 @@
+name = "mpil4"
+version = "0.1.0"
+defaultTargets = ["Mpil4"]
+
+[[lean_lib]]
+name = "Mpil4"
