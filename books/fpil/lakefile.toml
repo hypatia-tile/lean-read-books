@@ -1,0 +1,6 @@
+name = "fpil"
+version = "0.1.0"
+defaultTargets = ["Fpil"]
+
+[[lean_lib]]
+name = "Fpil"
