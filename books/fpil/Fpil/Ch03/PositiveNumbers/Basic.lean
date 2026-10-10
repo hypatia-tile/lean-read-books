@@ -15,4 +15,18 @@ def Pos.plus : Pos → Pos → Pos
 instance : Add Pos where
   add := Pos.plus
 
+def Pos.mul : Pos → Pos → Pos
+  | .one, k => k
+  | .succ n, k => n.mul k + k
+
+instance : Mul Pos where
+  mul := Pos.mul
+
+def Pos.toNat : Pos → Nat
+  | .one => 1
+  | .succ n => .succ <| n.toNat
+
+instance : ToString Pos where
+  toString x := toString (x.toNat)
+
 end «3.1. Positive Numbers»
