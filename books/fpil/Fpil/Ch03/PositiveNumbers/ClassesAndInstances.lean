@@ -19,10 +19,27 @@ Instead of the numeric literal, the constructors must be used directly
 def seven : Pos :=
   Pos.succ (Pos.succ (Pos.succ (Pos.succ (Pos.succ (Pos.succ Pos.one)))))
 
+section
+
 /--
-info: seven + seven : Pos
----
-error: unexpected success
+info: instAddPos
+-/
+#guard_msgs in
+#synth Add Pos
+
+/--
+info: instMulPos
+-/
+#guard_msgs in
+#synth Mul Pos
+
+attribute [-instance] instAddPos instMulPos
+
+/--
+info: failed to synthesize instance of type class
+  HAdd Pos Pos ?m.3
+
+Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.
 -/
 #guard_msgs in
 #check_failure seven + seven
@@ -35,6 +52,7 @@ Hint: Type class instance resolution failures can be inspected with the `set_opt
 -/
 #guard_msgs in
 #check_failure seven * seven
+end
 
 class Plus (α : Type) where
   plus : α → α → α
@@ -65,19 +83,7 @@ instance : Plus Pos where
 #eval plus 7 7
 
 /--
-info: «3.1. Positive Numbers».Pos.succ
-  («3.1. Positive Numbers».Pos.succ
-    («3.1. Positive Numbers».Pos.succ
-      («3.1. Positive Numbers».Pos.succ
-        («3.1. Positive Numbers».Pos.succ
-          («3.1. Positive Numbers».Pos.succ
-            («3.1. Positive Numbers».Pos.succ
-              («3.1. Positive Numbers».Pos.succ
-                («3.1. Positive Numbers».Pos.succ
-                  («3.1. Positive Numbers».Pos.succ
-                    («3.1. Positive Numbers».Pos.succ
-                      («3.1. Positive Numbers».Pos.succ
-                        («3.1. Positive Numbers».Pos.succ («3.1. Positive Numbers».Pos.one)))))))))))))
+info: 14
 -/
 #guard_msgs in
 #eval plus seven seven
@@ -85,19 +91,7 @@ info: «3.1. Positive Numbers».Pos.succ
 def fourteen : Pos := seven + seven
 
 /--
-info: «3.1. Positive Numbers».Pos.succ
-  («3.1. Positive Numbers».Pos.succ
-    («3.1. Positive Numbers».Pos.succ
-      («3.1. Positive Numbers».Pos.succ
-        («3.1. Positive Numbers».Pos.succ
-          («3.1. Positive Numbers».Pos.succ
-            («3.1. Positive Numbers».Pos.succ
-              («3.1. Positive Numbers».Pos.succ
-                («3.1. Positive Numbers».Pos.succ
-                  («3.1. Positive Numbers».Pos.succ
-                    («3.1. Positive Numbers».Pos.succ
-                      («3.1. Positive Numbers».Pos.succ
-                        («3.1. Positive Numbers».Pos.succ («3.1. Positive Numbers».Pos.one)))))))))))))
+info: 14
 -/
 #guard_msgs in
 #eval fourteen
