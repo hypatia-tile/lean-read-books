@@ -18,7 +18,7 @@ def NonEmptyList.get? : NonEmptyList α → Nat → Option α
 #guard idahoSpiders.get? 2 = some "Wolf Spider"
 #guard idahoSpiders.get? 8 = none
 
- /--
+/--
 info: class GetElem.{u, v, w} (coll : Type u) (idx : Type v) (elem : outParam (Type w))
   (valid : outParam (coll → idx → Prop)) : Type (max (max u v) w)
 number of parameters: 4
@@ -27,8 +27,8 @@ fields:
 constructor:
   GetElem.mk.{u, v, w} {coll : Type u} {idx : Type v} {elem : outParam (Type w)} {valid : outParam (coll → idx → Prop)}
     (getElem : (xs : coll) → (i : idx) → valid xs i → elem) : GetElem coll idx elem valid
- -/
- #guard_msgs in
- #print GetElem 
+-/
+#guard_msgs in
+#print GetElem
 
 end «3.4. Arrays and Indexing».Example
