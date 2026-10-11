@@ -2,8 +2,6 @@ import Fpil.Ch03.PositiveNumbers.Basic
 
 open «3.1. Positive Numbers»
 
-deriving instance DecidableEq for Pos
-
 def seven : Pos :=
   Pos.succ (Pos.succ (Pos.succ (Pos.succ (Pos.succ (Pos.succ Pos.one)))))
 

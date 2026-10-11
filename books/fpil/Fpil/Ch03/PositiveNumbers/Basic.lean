@@ -7,6 +7,7 @@ In some applications, only positive numbers make sense.
 inductive Pos : Type where
   | one
   | succ (n : Pos)
+  deriving DecidableEq
 
 def Pos.plus : Pos → Pos → Pos
   | .one, k => .succ k
