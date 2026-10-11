@@ -5,4 +5,9 @@
 
 Code goes in `Fpil/ChNN.lean` (imported from `Fpil.lean`); notes go in `notes/chNN.md`.
 A chapter split by section keeps its files in `Fpil/ChNN/<SectionTitle>/` and imports them from `Fpil/ChNN.lean`.
-A section's exercises go in `Fpil/ChNN/<SectionTitle>/Exercises/`, one file per exercise.
+Within a section's directory:
+
+- `Basic.lean` — the main definitions of the section.
+- a file for examples and experiments (`Examples.lean`, or a name that fits the topic).
+- `DecidableEq.lean` — `#guard` checks that need derived `DecidableEq` instances.
+- `Exercises/` — one file per exercise.
