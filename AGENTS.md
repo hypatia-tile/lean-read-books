@@ -35,5 +35,9 @@ nix develop -c sh -c 'for d in books/*/; do (cd "$d" && lake build) || exit 1; d
 
 - Do not change a book's `lean-toolchain` unless asked; bumping it can break
   the owner's existing code.
+- A commit that only touches a section's examples file or `notes/` uses the
+  fixed subject `examples: <BOOK> <section>` (e.g. `examples: FPIL 3.2`) or
+  `notes: <BOOK> <chapter>`, with no body. Commits to `Basic`, `DecidableEq`
+  and `Exercises/` get a descriptive subject and a body as usual.
 - Learning notes may be in any language; everything else (READMEs, this file,
   commits, PRs) is in English.

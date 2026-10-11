@@ -38,6 +38,12 @@ notes/<topic>.md       notes that span books
 
 Learning notes may be written in any language.
 
+## Commits
+
+Write commit messages by the conventions in [`AGENTS.md`](AGENTS.md); in
+particular, commits that only touch examples or notes use a fixed subject and
+no body.
+
 ## Books
 
 | Slug | Book | Toolchain |
