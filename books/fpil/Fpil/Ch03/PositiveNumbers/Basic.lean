@@ -29,4 +29,24 @@ def Pos.toNat : Pos → Nat
 instance : ToString Pos where
   toString x := toString (x.toNat)
 
+instance {n} : OfNat Pos (n + 1) where
+  ofNat :=
+    let rec natPlusOne : Nat → Pos
+    | .zero => .one
+    | .succ k => .succ <| natPlusOne k
+    natPlusOne n
+
+/--
+info: instOfNatPosHAddNatOfNat
+-/
+#guard_msgs in
+#synth OfNat Pos 256
+
+/--
+info: @[instance_reducible] def «3.1. Positive Numbers».instOfNatPosHAddNatOfNat : {n : Nat} → OfNat Pos (n + 1) :=
+fun {n} => { ofNat := instOfNatPosHAddNatOfNat.natPlusOne n }
+-/
+#guard_msgs in
+#print instOfNatPosHAddNatOfNat
+
 end «3.1. Positive Numbers»
