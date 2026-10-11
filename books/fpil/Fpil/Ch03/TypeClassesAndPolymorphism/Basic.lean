@@ -18,4 +18,11 @@ def List.sumOfContents [Add α] [OfNat α 0] : List α → α
   | [] => 0
   | x :: xs => x + sumOfContents xs
 
+structure PPoint (α : Type) where
+  x : α
+  y : α
+
+instance [Add α] : Add (PPoint α) where
+  add p1 p2 := { x := p1.x + p2.x, y := p1.y + p2.y }
+
 end «3.2. Type Classes and Polymorphism»
