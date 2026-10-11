@@ -8,3 +8,6 @@ open «3.3. Controlling Instance Search»
 `#guard` checks of the definitions in `Basic`, using derived `DecidableEq`
 instances.
 -/
+
+#guard (3 : Pos) + (5 : Nat) = 8
+#guard (3 : Nat) + (5 : Pos) = 8

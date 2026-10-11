@@ -15,4 +15,18 @@ The main definitions of the section.
 -/
 namespace «3.3. Controlling Instance Search»
 
+def addNatPos : Nat → Pos → Pos
+  | 0, p => p
+  | n + 1, p => Pos.succ <| addNatPos n p
+
+def addPosNat : Pos → Nat → Pos
+  | p, 0 => p
+  | p, n + 1 => Pos.succ <| addPosNat p n
+
+instance : HAdd Nat Pos Pos where
+  hAdd := addNatPos
+
+instance : HAdd Pos Nat Pos where
+  hAdd := addPosNat
+
 end «3.3. Controlling Instance Search»
