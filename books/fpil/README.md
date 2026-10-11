@@ -5,3 +5,4 @@
 
 Code goes in `Fpil/ChNN.lean` (imported from `Fpil.lean`); notes go in `notes/chNN.md`.
 A chapter split by section keeps its files in `Fpil/ChNN/<SectionTitle>/` and imports them from `Fpil/ChNN.lean`.
+A section's exercises go in `Fpil/ChNN/<SectionTitle>/Exercises/`, one file per exercise.
