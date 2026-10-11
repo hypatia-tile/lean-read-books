@@ -14,4 +14,8 @@ The main definitions of the section.
 -/
 namespace «3.2. Type Classes and Polymorphism»
 
+def List.sumOfContents [Add α] [OfNat α 0] : List α → α
+  | [] => 0
+  | x :: xs => x + sumOfContents xs
+
 end «3.2. Type Classes and Polymorphism»
