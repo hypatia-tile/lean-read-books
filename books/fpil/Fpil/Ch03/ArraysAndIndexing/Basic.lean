@@ -21,6 +21,7 @@ def northernTrees : Array String :=
 structure NonEmptyList (α : Type) : Type where
   head : α
   tail : List α
+  deriving DecidableEq
 
 def idahoSpiders : NonEmptyList String := {
   head := "Banded Garden Spider",
