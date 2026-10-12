@@ -22,4 +22,55 @@ The main definitions of the section.
 -/
 namespace «3.5. Standard Classes»
 
+def Pos.comp : Pos → Pos → Ordering
+  | .one, .one => Ordering.eq
+  | .one, .succ _ => Ordering.lt
+  | .succ _, .one => Ordering.gt
+  | .succ n, .succ k => comp n k
+
+instance : Ord Pos where
+  compare := Pos.comp
+
+instance : LT Pos where
+  lt x y := LT.lt x.toNat y.toNat
+instance : LE Pos where
+  le x y := LE.le x.toNat y.toNat
+
+instance {x : Pos} {y : Pos} : Decidable (x < y) :=
+  (inferInstance : Decidable (x.toNat < y.toNat))
+
+instance {x : Pos} {y : Pos} : Decidable (x ≤ y) :=
+  (inferInstance : Decidable (x.toNat ≤ y.toNat))
+
+#guard (3 : Pos) ≤ (5 : Pos)
+#guard compare (3 : Pos) (5 : Pos) = .lt
+
+def Pos.hashPos : Pos → UInt64
+  | .one => 0
+  | Pos.succ n => mixHash 1 (hashPos n)
+
+instance : Hashable Pos where
+  hash := Pos.hashPos
+
+instance [Hashable α] : Hashable (NonEmptyList α) where
+  hash xs := mixHash (hash xs.head) (hash xs.tail)
+
+inductive BinTree (α : Type) where
+  | leaf : BinTree α
+  | branch : BinTree α → α → BinTree α → BinTree α
+  deriving DecidableEq
+
+-- def eqBinTree [BEq α] : BinTree α → BinTree α → Bool
+--   | BinTree.leaf, BinTree.leaf => true
+--   | BinTree.branch l x r, BinTree.branch l2 x2 r2 =>
+--     x == x2 && eqBinTree l l2 && eqBinTree r r2
+
+def eqBinTree [BEq α] : BinTree α → BinTree α → Bool
+  | BinTree.leaf, BinTree.leaf =>
+    true
+  | BinTree.branch l x r, BinTree.branch l2 x2 r2 =>
+    x == x2 && eqBinTree l l2 && eqBinTree r r2
+  | _, _ =>
+    false
+
 end «3.5. Standard Classes»
