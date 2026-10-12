@@ -11,3 +11,17 @@ open «3.6. Coercions»
 `#guard` checks of the definitions in `Basic`, using derived `DecidableEq`
 instances.
 -/
+
+#guard [1, 2, 3, 4].drop (2 : Pos) = [3, 4]
+
+/-- info: List.drop (Pos.toNat 2) [1, 2, 3, 4] : List Nat -/
+#guard_msgs in
+#check [1, 2, 3, 4].drop (2 : Pos)
+
+/--
+info: def «3.6. Coercions».oneInt : Int :=
+↑Pos.one.toNat
+-/
+#guard_msgs in
+#print oneInt
+
