@@ -14,4 +14,13 @@ test it.
 -/
 namespace «3.5. Standard Classes».Exercises.HAppendNonEmptyList
 
+instance : HAppend (List α) (NonEmptyList α) (NonEmptyList α) where
+  hAppend xs ys :=
+    match xs with
+    | [] => ys
+    | x :: xs => ⟨x, xs ++ ys.head :: ys.tail⟩
+
+#guard ([] : List String) ++ (⟨"one", ["two", "three"]⟩ : NonEmptyList String) = (⟨"one", ["two", "three"]⟩: NonEmptyList String)
+#guard (["1", "2", "3"] : List String) ++ (⟨"one", ["two", "three"]⟩ : NonEmptyList String) = (⟨"1", ["2", "3", "one", "two", "three"]⟩: NonEmptyList String)
+
 end «3.5. Standard Classes».Exercises.HAppendNonEmptyList
