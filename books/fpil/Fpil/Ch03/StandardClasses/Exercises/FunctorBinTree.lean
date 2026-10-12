@@ -13,4 +13,11 @@ Implement a `Functor` instance for the binary tree datatype.
 -/
 namespace «3.5. Standard Classes».Exercises.FunctorBinTree
 
+def BinTree.map (f : α → β) : BinTree α → BinTree β
+  | .leaf => .leaf
+  | .branch l x r => .branch (map f l) (f x) (map f r)
+
+instance : Functor BinTree where
+  map := BinTree.map
+
 end «3.5. Standard Classes».Exercises.FunctorBinTree
