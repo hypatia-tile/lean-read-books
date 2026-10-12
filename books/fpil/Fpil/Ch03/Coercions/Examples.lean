@@ -11,4 +11,40 @@ Examples and experiments around the definitions in `Basic`.
 -/
 namespace «3.6. Coercions».Example
 
+inductive A where
+  | a
+
+inductive B where
+  | b
+
+instance : Coe A B where
+  coe _ := B.b
+
+instance : Coe B A where
+  coe _ := A.a
+
+instance : Coe Unit A where
+  coe _ := A.a
+
+def coercedToB : B := ()
+
+/-- info: «3.6. Coercions».Example.B.b -/
+#guard_msgs in
+#eval coercedToB
+
+def List.last? : List α → Option α
+  | [] => none
+  | [x] => x
+  | _ :: x :: xs => last? (x :: xs)
+
+def perhapsPerhapsPerhaps : Option (Option (Option String)) :=
+  "Please don't tell me"
+
+/-- info: some (some (some "Please don't tell me")) -/
+#guard_msgs in
+#eval perhapsPerhapsPerhaps
+
+def perhapsPerhapsPerhapsNat : Option (Option (Option Nat)) :=
+  ↑(392 : Nat)
+
 end «3.6. Coercions».Example
