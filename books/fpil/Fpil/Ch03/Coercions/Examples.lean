@@ -1,4 +1,5 @@
 import Fpil.Ch03.Coercions.Basic
+import Lean
 open «3.1. Positive Numbers»
 open «3.2. Type Classes and Polymorphism»
 open «3.3. Controlling Instance Search»
@@ -124,20 +125,63 @@ def listMonoid (α : Type) : Monoid :=
 instance : CoeSort Monoid Type where
   coe m := m.Carrier
 
+/--
+info: class CoeFun.{u, v} (α : Sort u) (γ : outParam (α → Sort v)) : Sort (max (max 1 u) v)
+number of parameters: 2
+fields:
+  CoeFun.coe : (f : α) → γ f
+constructor:
+  CoeFun.mk.{u, v} {α : Sort u} {γ : outParam (α → Sort v)} (coe : (f : α) → γ f) : CoeFun α γ
+-/
+#guard_msgs in
+#print CoeFun
+
+/--
+info: @CoeFun.coe : {α : Sort u_1} → {γ : outParam (α → Sort u_2)} → [self : CoeFun α γ] → (f : α) → γ f
+-/
+#guard_msgs in
+#check @CoeFun.coe
+
 def foldMap (M : Monoid) (f : α → M) (xs : List α) : M :=
   let rec go (soFar : M) : List α → M
     | [] => soFar
     | y :: ys => go (M.op soFar (f y)) ys
   go M.neutral xs
 
+-- 3.6.6. Coercing to Function
+
+structure Adder where
+  howMuch : Nat
+
+def add5 : Adder := ⟨5⟩
+
+/--
+info: Function expected at
+  add5
+but this term has type
+  Adder
+
+Note: Expected a function because this term is being applied to the argument
+  3
+-/
+#guard_msgs in
+#check_failure add5 3
+
+instance : CoeFun Adder (fun _ => Nat → Nat) where
+  coe a := (· + a.howMuch)
+
+/-- info: 8 -/
+#guard_msgs in
+#eval add5 3
+
 inductive JSON where
-  | true : JSON
-  | false : JSON
-  | null : JSON
-  | string : String → JSON
-  | number : Float → JSON
-  | object : List (String × JSON) → JSON
-  | array : List JSON → JSON
+  | true
+  | false
+  | null
+  | string (str : String)
+  | number (num : Float)
+  | object (l : List (String × JSON))
+  | array (arr : List JSON)
 
 structure Serializer : Type 1 where
   Contents : Type
@@ -147,5 +191,53 @@ def Str : Serializer :=
   { Contents := String,
     serialize := JSON.string
   }
+
+instance : CoeFun Serializer (fun s => s.Contents → JSON) where
+  coe s := s.serialize
+
+def buildResponse (title : String) (R : Serializer) (record : R.Contents) : JSON :=
+  JSON.object [
+    ("title", JSON.string title),
+    ("status", JSON.number 200),
+    ("record", R record)
+  ]
+
+/--
+info: «3.6. Coercions».Example.JSON.object
+  [("title", «3.6. Coercions».Example.JSON.string "Functional Programming in Lean"),
+   ("status", «3.6. Coercions».Example.JSON.number 200.000000),
+   ("record", «3.6. Coercions».Example.JSON.string "Programming is fun!")]
+-/
+#guard_msgs in
+#eval buildResponse "Functional Programming in Lean" Str "Programming is fun!"
+
+-- 3.6.6.1. Aside: JSON as a String
+
+def dropDecimals (numString : String) : String :=
+  if numString.contains '.' then
+    let noTrailingZeros := numString.dropEndWhile (· == '0')
+    (noTrailingZeros.dropEndWhile (· == '.')).copy
+  else numString
+
+def _root_.String.separate (sep : String) (strings : List String) : String :=
+  match strings with
+  | [] => ""
+  | x :: xs => String.join (x :: xs.map (sep ++ ·))
+
+#guard ",".separate  ["aa", "bb", "cc"] = "aa,bb,cc"
+
+partial def JSON.asString (val : JSON) : String :=
+  match val with
+  | true => "true"
+  | false => "false"
+  | null => "null"
+  | string s => "\"" ++ Lean.Json.escape s ++ "\""
+  | number n => dropDecimals n.toString
+  | object members =>
+    let memberToString mem :=
+      "\"" ++ Lean.Json.escape mem.fst ++ "\": " ++ asString mem.snd
+    "{" ++ ", ".separate (members.map memberToString) ++ "}"
+  | array elements =>
+    "[" ++ ", ".separate (elements.map asString) ++ "]"
 
 end «3.6. Coercions».Example
