@@ -2,3 +2,4 @@
 -- Import modules here that should be built as part of the library.
 import Fpil.Ch01
 import Fpil.Ch03
+import Fpil.Ch04
