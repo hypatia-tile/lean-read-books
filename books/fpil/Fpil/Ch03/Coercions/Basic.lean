@@ -25,7 +25,6 @@ namespace «3.6. Coercions»
 instance : Coe Pos Nat where
   coe x := x.toNat
 
-
 def oneInt : Int := Pos.one
 
 end «3.6. Coercions»
