@@ -44,4 +44,29 @@ def getOrExcept (xs : List α) (i : Nat) : Except String α :=
 example : Except String (String × String × String × String) := firstThirdFifthSeventh getOrExcept slowMammals
 example : Except String (String × String × String × String) :=  firstThirdFifthSeventh getOrExcept fastBirds
 
+def mapM [Monad m] (f : α → m β) : List α → m (List β)
+  | [] => pure []
+  | x :: xs =>
+    f x >>= fun hd =>
+    mapM f xs >>= fun tl =>
+    pure (hd :: tl)
+
+def State σ α := σ → σ × α
+
+def get : State σ σ := fun s => (s, s)
+def set (s : σ) : State σ Unit := fun _ => (s, ())
+
+instance : Monad (State σ) where
+  pure x := fun s => (s, x)
+  bind x f :=
+    fun s =>
+      let (s', x') := x s
+      f x' s'
+
+def increment (howMuch : Int) : State Int Int :=
+  get >>= fun i =>
+  set (i + howMuch) >>= fun () =>
+  pure i
+
+#guard mapM increment [1, 2, 3, 4, 5] 0 = (15, [0, 1, 3, 6, 10])
 end «4.2. The Monad Type Class».Example
