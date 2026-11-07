@@ -83,7 +83,7 @@ end «3.7. Exercises».Constructive
 /-!
 These require classical reasoning.
 -/
-namespace «3.7. Exercises».Classical
+namespace «3.7. Exercises».ClassicalReasoning
 
 open Classical
 
@@ -97,7 +97,7 @@ example : (¬q → ¬p) → (p → q) := sorry
 example : p ∨ ¬p := sorry
 example : (((p → q) → p) → p) := sorry
 
-end «3.7. Exercises».Classical
+end «3.7. Exercises».ClassicalReasoning
 
 /-!
 Prove `¬(p ↔ ¬p)` without using classical logic.
