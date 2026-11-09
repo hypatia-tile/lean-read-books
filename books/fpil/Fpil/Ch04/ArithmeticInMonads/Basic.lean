@@ -18,4 +18,23 @@ The main definitions of the section.
 -/
 namespace «4.3. Example: Arithmetic in Monads»
 
+inductive Expr (op : Type) where
+  | const (n : Int)
+  | prim (o : op) (lhs : Expr op) (rhs : Expr op)
+  deriving DecidableEq
+
+/--
+Basic arithmetic operations.
+-/
+inductive Arith where
+  /-- Addition -/
+  | plus
+  /-- Subtraction -/
+  | minus
+  /-- Multiplication -/
+  | times
+  /-- Division -/
+  | div
+  deriving DecidableEq
+
 end «4.3. Example: Arithmetic in Monads»
