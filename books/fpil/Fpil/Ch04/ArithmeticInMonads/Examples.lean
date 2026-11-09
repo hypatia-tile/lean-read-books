@@ -61,4 +61,28 @@ def evaluateExcept : Expr Arith → Except String Int
 #guard_msgs in
 #eval evaluateOption fourteenDivided
 
+def divOption : CanFail → Int → Int → Option Int
+  | .div, _, 0 => none
+  | .div, x, y => pure (x / y)
+
+def divExcept : CanFail → Int → Int → Except String Int
+  | .div, x, 0 => .error s!"Tried to divide {x} by zero"
+  | .div, x, y => pure (x / y)
+
+namespace «4.3.3. Further Effects»
+section
+open Expr Prim
+def twoPlusThree : Expr (Prim CanFail) :=
+  prim plus (const 2) (const 3)
+
+end
+
+#guard evaluateM divOption twoPlusThree = some 5
+
+/-- info: Except.ok 5 -/
+#guard_msgs in
+#eval evaluateM divExcept twoPlusThree
+
+end «4.3.3. Further Effects»
+
 end «4.3. Example: Arithmetic in Monads».Example
