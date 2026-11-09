@@ -16,4 +16,16 @@ def BinTree.mapM [Monad m] (f : α → m β) : BinTree α → m (BinTree β)
 -/
 namespace «4.2. The Monad Type Class».Exercises.MapMBinTree
 
+inductive BinTree (α : Type) where
+  | leaf
+  | branch (l : BinTree α) (x : α) (r : BinTree α)
+  deriving DecidableEq
+
+def BinTree.mapM [Monad m] (f : α → m β) : BinTree α → m (BinTree β)
+  | leaf => pure leaf
+  | branch l x r => f x >>= fun x =>
+    mapM f l >>= fun l =>
+    mapM f r >>= fun r =>
+      pure <| branch l x r
+
 end «4.2. The Monad Type Class».Exercises.MapMBinTree
