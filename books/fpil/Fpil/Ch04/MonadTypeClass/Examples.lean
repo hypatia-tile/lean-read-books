@@ -69,4 +69,5 @@ def increment (howMuch : Int) : State Int Int :=
   pure i
 
 #guard mapM increment [1, 2, 3, 4, 5] 0 = (15, [0, 1, 3, 6, 10])
+
 end «4.2. The Monad Type Class».Example
