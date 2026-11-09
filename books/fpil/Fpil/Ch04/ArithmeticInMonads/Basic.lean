@@ -37,4 +37,47 @@ inductive Arith where
   | div
   deriving DecidableEq
 
+/--
+Arithmetic operations with a special operation defined by the user.
+-/
+inductive Prim (special : Type) where
+  /-- Addition -/
+  | plus
+  /-- Subtraction -/
+  | minus
+  /-- Multiplication -/
+  | times
+  /-- User defined operation -/
+  | other (s : special)
+  deriving DecidableEq
+
+inductive CanFail where
+  | div
+  deriving DecidableEq
+
+def divOption : CanFail → Int → Int → Option Int
+  | .div, _, 0 => none
+  | .div, x, y => pure (x / y)
+
+def divExcept : CanFail → Int → Int → Except String Int
+  | .div, x, 0 => .error s!"Tried to divide {x} by zero"
+  | .div, x, y => pure (x / y)
+
+def applyPrim [Monad m]
+    (applySpecial : special → Int → Int → m Int) :
+    Prim special → Int → Int → m Int
+  | .plus, lhs, rhs => pure (lhs + rhs)
+  | .minus, lhs, rhs => pure (lhs - rhs)
+  | .times, lhs, rhs => pure (lhs * rhs)
+  | .other op, lhs, rhs => applySpecial op lhs rhs
+
+def evaluateM [Monad m]
+    (applySpecial : special → Int → Int → m Int) :
+    Expr (Prim special) → m Int
+  | .const i => pure i
+  | .prim p lhs rhs =>
+    evaluateM applySpecial lhs >>= fun lhs =>
+    evaluateM applySpecial rhs >>= fun rhs =>
+    applyPrim applySpecial p lhs rhs
+
 end «4.3. Example: Arithmetic in Monads»
