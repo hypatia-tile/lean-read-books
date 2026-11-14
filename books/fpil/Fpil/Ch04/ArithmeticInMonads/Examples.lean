@@ -10,9 +10,11 @@ namespace «4.3. Example: Arithmetic in Monads».Example
 
 open Expr in
 open Arith in
+/--
+2 + 3
+-/
 def twoPlusThree : Expr Arith :=
   prim plus (const 2) (const 3)
-
 
 open Expr in
 open Arith in
@@ -74,12 +76,9 @@ def divExcept : CanFail → Int → Int → Except String Int
   | .div, x, y => pure (x / y)
 
 namespace «4.3.3. Further Effects»
-section
-open Expr Prim
+open Expr Prim in
 def twoPlusThree : Expr (Prim CanFail) :=
   prim plus (const 2) (const 3)
-
-end
 
 #guard evaluateM divOption twoPlusThree = some 5
 
