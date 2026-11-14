@@ -71,6 +71,9 @@ def applyPrim [Monad m]
   | .times, lhs, rhs => pure (lhs * rhs)
   | .other op, lhs, rhs => applySpecial op lhs rhs
 
+def applyEmpty [Monad m] (op : Empty) (_ : Int) (_ : Int) : m Int :=
+  nomatch op
+
 def evaluateM [Monad m]
     (applySpecial : special → Int → Int → m Int) :
     Expr (Prim special) → m Int
