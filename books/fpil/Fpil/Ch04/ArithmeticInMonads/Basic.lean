@@ -51,18 +51,6 @@ inductive Prim (special : Type) where
   | other (s : special)
   deriving DecidableEq
 
-inductive CanFail where
-  | div
-  deriving DecidableEq
-
-def divOption : CanFail → Int → Int → Option Int
-  | .div, _, 0 => none
-  | .div, x, y => pure (x / y)
-
-def divExcept : CanFail → Int → Int → Except String Int
-  | .div, x, 0 => .error s!"Tried to divide {x} by zero"
-  | .div, x, y => pure (x / y)
-
 def applyPrim [Monad m]
     (applySpecial : special → Int → Int → m Int) :
     Prim special → Int → Int → m Int

@@ -61,6 +61,10 @@ def evaluateExcept : Expr Arith → Except String Int
 #guard_msgs in
 #eval evaluateOption fourteenDivided
 
+inductive CanFail where
+  | div
+  deriving DecidableEq
+
 def divOption : CanFail → Int → Int → Option Int
   | .div, _, 0 => none
   | .div, x, y => pure (x / y)
