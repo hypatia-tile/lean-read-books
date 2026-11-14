@@ -83,6 +83,11 @@ end
 #guard_msgs in
 #eval evaluateM divExcept twoPlusThree
 
+open Expr Prim in
+/-- info: -9 -/
+#guard_msgs in
+#eval evaluateM (m := Id) applyEmpty (prim plus (const 5) (const (-14)))
+
 end «4.3.3. Further Effects»
 
 end «4.3. Example: Arithmetic in Monads».Example
